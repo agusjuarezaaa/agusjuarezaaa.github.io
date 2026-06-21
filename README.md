@@ -8,17 +8,11 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html, body {
-    height: 100%;
-    background: transparent;
-  }
+  html, body { height: 100%; background: transparent; }
 
-  .scroll-track {
-    height: 600vh;
-    position: relative;
-  }
+  .track { height: 500vh; }
 
-  .sticky-wrap {
+  .sticky {
     position: sticky;
     top: 0;
     height: 100vh;
@@ -31,46 +25,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     user-select: none;
   }
 
   .line {
     width: 1px;
-    height: 40px;
-    background: rgba(255,255,255,0.25);
-    margin-bottom: 6px;
+    height: 24px;
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 4px;
   }
 
   .label {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 9px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.45);
   }
 
   .depth {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 80px;
-    letter-spacing: 0.04em;
+    font-size: 28px;
+    letter-spacing: 0.08em;
     color: #ffffff;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
 
   .unit {
-    font-size: 34px;
-    color: rgba(255,255,255,0.4);
-    margin-left: 6px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.35);
+    margin-left: 3px;
   }
 </style>
 </head>
 <body>
-<div class="scroll-track">
-  <div class="sticky-wrap">
+<div class="track">
+  <div class="sticky">
     <div class="counter">
       <div class="line"></div>
       <div class="label">Profundidad</div>
@@ -81,13 +75,9 @@
 
 <script>
   const el = document.getElementById('num');
-  let current = 0;
-  let target = 0;
-  let rafId = null;
+  let current = 0, target = 0, rafId = null;
 
-  function pad(n) {
-    return String(Math.round(n)).padStart(3, '0');
-  }
+  function pad(n) { return String(Math.round(n)).padStart(3, '0'); }
 
   function animate() {
     if (Math.abs(current - target) < 0.5) {
@@ -101,15 +91,14 @@
     rafId = requestAnimationFrame(animate);
   }
 
-  function setDepth(value) {
-    target = Math.max(0, Math.min(1000, value));
+  function setDepth(v) {
+    target = Math.max(0, Math.min(1000, v));
     if (!rafId) rafId = requestAnimationFrame(animate);
   }
 
   window.addEventListener('scroll', function() {
-    const scrolled = window.scrollY;
-    const total = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = total > 0 ? scrolled / total : 0;
+    var total = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = total > 0 ? window.scrollY / total : 0;
     setDepth(pct * 1000);
   }, { passive: true });
 </script>
