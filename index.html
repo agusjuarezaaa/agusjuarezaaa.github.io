@@ -4,19 +4,34 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <style>
-        body { background: transparent !important; margin: 0; padding: 0; overflow: hidden; }
-        .panel { position: absolute; left: 40px; top: 50px; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-        .titulo { font-family: 'Lato', sans-serif !important; font-size: 10px !important; letter-spacing: 0.3em !important; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-        #meter { font-family: 'Lato', sans-serif !important; font-size: 28px !important; font-weight: 300 !important; color: #ffffff !important; line-height: 1; }
-        .linea { position: absolute; left: 45px; top: 100px; bottom: 50px; width: 1px; background: rgba(255,255,255,0.2); }
+        /* El estilo está limitado a la clase .meter-wrapper para no afectar nada más */
+        .meter-wrapper { 
+            position: fixed; top: 50px; left: 40px; 
+            font-family: 'Lato', sans-serif !important; 
+            pointer-events: none;
+        }
+        .meter-wrapper .titulo { 
+            font-size: 10px !important; letter-spacing: 0.3em !important; 
+            text-transform: uppercase; color: rgba(255,255,255,0.6); 
+            margin-bottom: 8px;
+        }
+        .meter-wrapper #meter { 
+            font-size: 28px !important; font-weight: 300 !important; 
+            color: #ffffff !important; line-height: 1;
+        }
+        .meter-wrapper .linea { 
+            position: absolute; left: 5px; top: 40px; bottom: -300px; 
+            width: 1px; background: rgba(255,255,255,0.2); 
+        }
     </style>
 </head>
-<body>
-    <div class="panel">
+<body style="margin:0; background:transparent !important;">
+
+    <div class="meter-wrapper">
         <div class="titulo">Profundidad</div>
         <div id="meter">000m</div>
+        <div class="linea"></div>
     </div>
-    <div class="linea"></div>
 
     <script>
         window.addEventListener('message', (event) => {
