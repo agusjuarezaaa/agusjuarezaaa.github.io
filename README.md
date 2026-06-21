@@ -2,45 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <style>
-        /* Reseteo extremo para que no afecte nada fuera */
-        body, html { margin: 0; padding: 0; background: transparent !important; overflow: hidden; }
-        
-        /* Contenedor ultra específico para que los estilos no se escapen */
-        .mi-contador-aislado {
-            position: fixed; top: 50px; left: 40px;
-            font-family: 'Lato', sans-serif !important;
+        /* Estilos aislados, sin tocar etiquetas globales */
+        .contador-wrapper {
+            position: fixed; top: 0; left: 0;
+            font-family: 'Arial', sans-serif !important;
             pointer-events: none;
-            z-index: 999999;
         }
-        .mi-contador-aislado .titulo-profundidad {
+        .titulo {
             font-size: 8px !important;
-            letter-spacing: 0.3em !important;
             text-transform: uppercase !important;
-            color: rgba(255, 255, 255, 0.4) !important;
+            letter-spacing: 0.3em !important;
+            color: #ffffff !important;
             margin-bottom: 4px !important;
         }
-        .mi-contador-aislado #valor-metros {
+        .metros {
             font-size: 20px !important;
-            font-weight: 300 !important;
             color: #ffffff !important;
-            line-height: 1 !important;
         }
     </style>
 </head>
-<body>
+<body style="margin:0; padding:0; background:transparent !important;">
 
-    <div class="mi-contador-aislado">
-        <div class="titulo-profundidad">Profundidad</div>
-        <div id="valor-metros">000m</div>
+    <div class="contador-wrapper">
+        <div class="titulo">Profundidad</div>
+        <div id="valor-metros" class="metros">000m</div>
     </div>
 
     <script>
-        // Escucha la señal de scroll enviada desde la web principal
         window.addEventListener('message', (event) => {
             if (event.data.type === 'scroll') {
-                const maxDepth = 500; // Ajusta este límite según prefieras
+                const maxDepth = 500;
                 const depth = Math.floor(event.data.percent * maxDepth);
                 document.getElementById('valor-metros').innerText = depth.toString().padStart(3, '0') + 'm';
             }
