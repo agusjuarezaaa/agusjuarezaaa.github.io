@@ -2,45 +2,25 @@
 <html>
 <head>
     <style>
-        /* El "búnker": esto anula cualquier herencia externa */
-        .aislado, .aislado * {
-            all: unset;
-            display: block;
-            font-family: sans-serif !important;
-            color: #ffffff !important;
-        }
-        .aislado {
-            position: fixed;
-            top: 50px;
-            left: 40px;
-            pointer-events: none;
-        }
-        .titulo {
-            font-size: 10px !important;
-            letter-spacing: 0.3em !important;
-            text-transform: uppercase !important;
-            color: rgba(255, 255, 255, 0.6) !important;
-            margin-bottom: 5px !important;
-        }
-        .numero {
-            font-size: 32px !important;
-            font-weight: 300 !important;
-        }
+        body { margin: 0; padding: 0; background: transparent !important; overflow: hidden; }
+        .c { position: absolute; top: 0; left: 0; font-family: sans-serif; color: #ffffff; pointer-events: none; }
+        .t { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); margin-bottom: 5px; }
+        .n { font-size: 32px; font-weight: 300; line-height: 1; }
     </style>
 </head>
-<body style="margin:0; padding:0; background:transparent;">
-    <div class="aislado">
-        <div class="titulo">Profundidad</div>
-        <div id="v" class="numero">000m</div>
+<body>
+    <div class="c">
+        <div class="t">Profundidad</div>
+        <div id="v" class="n">000m</div>
     </div>
     <script>
-        // Escucha el evento desde Readymag
-        window.addEventListener('message', (e) => {
-            if (e.data.type === 'scroll') {
-                const d = Math.floor(e.data.percent * 500);
-                document.getElementById('v').innerText = d.toString().padStart(3, '0') + 'm';
-            }
+        window.parent.addEventListener('scroll', function() {
+            const h = window.parent.document.documentElement.scrollHeight - window.parent.innerHeight;
+            const p = window.parent.scrollY / h;
+            const d = Math.floor(p * 500);
+            document.getElementById('v').innerText = d.toString().padStart(3, '0') + 'm';
         });
     </script>
 </body>
+</html>
 </html>
