@@ -15,7 +15,6 @@
     background: transparent;
   }
 
-  /* scroller oculto detrás del contador */
   #scroller {
     position: absolute;
     top: 0; left: 0;
@@ -30,7 +29,6 @@
 
   #track { height: 500vh; }
 
-  /* contador encima, no intercepta scroll */
   #ui {
     position: fixed;
     top: 0; left: 0;
@@ -51,13 +49,6 @@
     user-select: none;
   }
 
-  .line {
-    width: 1px;
-    height: 22px;
-    background: rgba(255,255,255,0.25);
-    margin-bottom: 4px;
-  }
-
   .label {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
@@ -70,7 +61,7 @@
   .depth {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 24px;
+    font-size: 36px;
     letter-spacing: 0.06em;
     color: #ffffff;
     line-height: 1;
@@ -78,7 +69,7 @@
   }
 
   .unit {
-    font-size: 12px;
+    font-size: 16px;
     color: rgba(255,255,255,0.35);
     margin-left: 3px;
   }
@@ -92,7 +83,6 @@
 
 <div id="ui">
   <div class="counter">
-    <div class="line"></div>
     <div class="label">Profundidad</div>
     <div class="depth"><span id="num">000</span><span class="unit">m</span></div>
   </div>
