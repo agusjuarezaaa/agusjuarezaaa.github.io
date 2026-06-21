@@ -1,79 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <style>
-        body { background: transparent; margin: 0; overflow: hidden; }
+        body { background: transparent !important; margin: 0; overflow: hidden; }
         
         .viewport-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
         }
 
+        /* Título y números más grandes y visibles */
+        .panel {
+            position: absolute; left: 40px; top: 50px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
         .titulo {
-            position: absolute; left: 25px; top: 20px;
             font-family: 'Lato', sans-serif !important;
-            font-size: 8px !important; 
+            font-size: 12px !important; 
             letter-spacing: 0.3em !important; 
             text-transform: uppercase; 
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.6);
         }
-
-        .linea-profundidad {
-            position: absolute; left: 40px; top: 40px; bottom: 40px;
-            width: 1px; background: rgba(255,255,255,0.2);
-        }
-
-        .marcador {
-            position: absolute; left: 35px; top: 40px;
-            display: flex; align-items: center; gap: 10px;
-            transition: top 0.05s linear;
-        }
-
-        .punto { width: 10px; height: 1px; background: #fff; }
 
         #meter { 
             font-family: 'Lato', sans-serif !important; 
-            font-size: 14px !important; 
+            font-size: 24px !important; 
             font-weight: 300 !important; 
-            letter-spacing: 0.1em !important; 
             color: #ffffff !important;
-            opacity: 0.8;
-            white-space: nowrap;
+        }
+
+        .linea {
+            position: absolute; left: 45px; top: 100px; bottom: 50px;
+            width: 1px; background: rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
     <div class="viewport-container">
-        <div class="titulo">Profundidad</div>
-        <div class="linea-profundidad"></div>
-        <div class="marcador" id="marcador">
-            <div class="punto"></div>
+        <div class="panel">
+            <div class="titulo">Profundidad</div>
             <div id="meter">000m</div>
         </div>
+        <div class="linea"></div>
     </div>
 
     <script>
-        const marcador = document.getElementById('marcador');
         const meterEl = document.getElementById('meter');
 
         window.addEventListener('scroll', () => {
-            // Calculamos el porcentaje de scroll sobre el total del sitio
-            // Nota: Este valor debe ser consistente en todas las páginas
             const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
             const scrollActual = window.scrollY;
+            
+            // Calculamos profundidad de 0 a 1000
             const porcentaje = scrollTotal > 0 ? (scrollActual / scrollTotal) : 0;
-            
-            // 1. Movimiento del marcador (baja proporcionalmente en la pantalla)
-            const rangoMovimiento = window.innerHeight - 80;
-            const topPos = 40 + (porcentaje * rangoMovimiento); 
-            marcador.style.top = topPos + "px";
-            
-            // 2. Cálculo de profundidad: llega a 1000m recién al final de TODO el sitio
             const depth = Math.floor(porcentaje * 1000);
             
-            // Usamos padStart(3, '0') para que empiece en 000m y llegue a 999m (o 1000m)
+            // Actualizamos el texto
             meterEl.innerText = depth.toString().padStart(3, '0') + 'm';
         });
     </script>
