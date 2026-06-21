@@ -8,7 +8,13 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html, body { height: 100%; background: transparent; }
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar { display: none; }
+
+  body { background: transparent; height: 100%; }
 
   .track { height: 500vh; }
 
@@ -25,30 +31,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     user-select: none;
   }
 
   .line {
     width: 1px;
-    height: 24px;
+    height: 18px;
     background: rgba(255,255,255,0.2);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
   .label {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 9px;
-    letter-spacing: 0.3em;
+    font-size: 8px;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.4);
   }
 
   .depth {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 28px;
+    font-size: 18px;
     letter-spacing: 0.08em;
     color: #ffffff;
     line-height: 1;
@@ -56,9 +62,9 @@
   }
 
   .unit {
-    font-size: 14px;
-    color: rgba(255,255,255,0.35);
-    margin-left: 3px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-left: 2px;
   }
 </style>
 </head>
