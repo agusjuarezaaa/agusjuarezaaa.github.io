@@ -1,27 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <style>
-        /* Aislamos todo para que no afecte a la web principal */
-        body { margin: 0; padding: 0; background: transparent !important; overflow: hidden; font-family: sans-serif; }
-        .contador { color: #ffffff; position: fixed; top: 50px; left: 40px; pointer-events: none; }
-        .titulo { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
-        .numero { font-size: 32px; font-weight: 300; line-height: 1; }
+        /* Reseteo para evitar que afecte a la página principal */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            background: transparent !important; 
+            overflow: hidden; 
+            font-family: 'Helvetica', 'Arial', sans-serif !important; 
+        }
+        
+        .contador-wrapper { 
+            position: fixed; 
+            top: 50px; 
+            left: 40px; 
+            pointer-events: none; 
+            color: #ffffff; 
+        }
+        
+        .titulo { 
+            font-size: 10px !important; 
+            letter-spacing: 0.3em !important; 
+            text-transform: uppercase !important; 
+            color: rgba(255, 255, 255, 0.6) !important; 
+            margin-bottom: 5px !important; 
+            font-weight: normal !important;
+        }
+        
+        .numero { 
+            font-size: 32px !important; 
+            font-weight: 300 !important; 
+            line-height: 1 !important; 
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body>
-    <div class="contador">
+
+    <div class="contador-wrapper">
         <div class="titulo">Profundidad</div>
-        <div id="valor" class="numero">000m</div>
+        <div id="valor-metros" class="numero">000m</div>
     </div>
+
     <script>
-        // Este script vive dentro del iframe y escucha el scroll de la ventana principal
-        window.addEventListener('scroll', () => {
-            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-            const percent = window.scrollY / scrollTotal;
-            const depth = Math.floor(percent * 500); // Límite de 500m
-            document.getElementById('valor').innerText = depth.toString().padStart(3, '0') + 'm';
-        }, true);
+        // Esta función detecta el scroll de la página padre
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'scroll') {
+                const maxDepth = 500; // Puedes ajustar este número para cambiar la profundidad máxima
+                const depth = Math.floor(event.data.percent * maxDepth);
+                document.getElementById('valor-metros').innerText = depth.toString().padStart(3, '0') + 'm';
+            }
+        });
     </script>
+</body>
+</html>
 </body>
 </html>
