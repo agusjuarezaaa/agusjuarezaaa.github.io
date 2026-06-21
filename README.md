@@ -8,79 +8,99 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html {
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  /* scroller oculto detrás del contador */
+  #scroller {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    z-index: 1;
   }
-  html::-webkit-scrollbar { display: none; }
+  #scroller::-webkit-scrollbar { display: none; }
 
-  body { background: transparent; height: 100%; }
+  #track { height: 500vh; }
 
-  .track { height: 500vh; }
-
-  .sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+  /* contador encima, no intercepta scroll */
+  #ui {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
+    z-index: 2;
   }
 
   .counter {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     user-select: none;
   }
 
   .line {
     width: 1px;
-    height: 18px;
-    background: rgba(255,255,255,0.2);
-    margin-bottom: 3px;
+    height: 22px;
+    background: rgba(255,255,255,0.25);
+    margin-bottom: 4px;
   }
 
   .label {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 8px;
-    letter-spacing: 0.28em;
+    font-size: 9px;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.5);
   }
 
   .depth {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 18px;
-    letter-spacing: 0.08em;
+    font-size: 24px;
+    letter-spacing: 0.06em;
     color: #ffffff;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
 
   .unit {
-    font-size: 10px;
-    color: rgba(255,255,255,0.3);
-    margin-left: 2px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    margin-left: 3px;
   }
 </style>
 </head>
 <body>
-<div class="track">
-  <div class="sticky">
-    <div class="counter">
-      <div class="line"></div>
-      <div class="label">Profundidad</div>
-      <div class="depth"><span id="num">000</span><span class="unit">m</span></div>
-    </div>
+
+<div id="scroller">
+  <div id="track"></div>
+</div>
+
+<div id="ui">
+  <div class="counter">
+    <div class="line"></div>
+    <div class="label">Profundidad</div>
+    <div class="depth"><span id="num">000</span><span class="unit">m</span></div>
   </div>
 </div>
 
 <script>
   const el = document.getElementById('num');
+  const scroller = document.getElementById('scroller');
   let current = 0, target = 0, rafId = null;
 
   function pad(n) { return String(Math.round(n)).padStart(3, '0'); }
@@ -102,9 +122,9 @@
     if (!rafId) rafId = requestAnimationFrame(animate);
   }
 
-  window.addEventListener('scroll', function() {
-    var total = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = total > 0 ? window.scrollY / total : 0;
+  scroller.addEventListener('scroll', function() {
+    var total = scroller.scrollHeight - scroller.clientHeight;
+    var pct = total > 0 ? scroller.scrollTop / total : 0;
     setDepth(pct * 1000);
   }, { passive: true });
 </script>
