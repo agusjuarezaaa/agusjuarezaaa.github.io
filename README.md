@@ -4,54 +4,47 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <style>
-        .meter-wrapper { 
-            position: fixed; top: 50px; left: 40px; 
-            font-family: 'Lato', sans-serif !important; 
+        /* Reseteo extremo para que no afecte nada fuera */
+        body, html { margin: 0; padding: 0; background: transparent !important; overflow: hidden; }
+        
+        /* Contenedor ultra específico para que los estilos no se escapen */
+        .mi-contador-aislado {
+            position: fixed; top: 50px; left: 40px;
+            font-family: 'Lato', sans-serif !important;
             pointer-events: none;
+            z-index: 999999;
         }
-        .meter-wrapper .titulo { 
-            font-size: 8px !important; letter-spacing: 0.3em !important; 
-            text-transform: uppercase; color: rgba(255,255,255,0.4); 
-            margin-bottom: 4px;
+        .mi-contador-aislado .titulo-profundidad {
+            font-size: 8px !important;
+            letter-spacing: 0.3em !important;
+            text-transform: uppercase !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            margin-bottom: 4px !important;
         }
-        .meter-wrapper #meter { 
-            font-size: 20px !important; font-weight: 300 !important; 
-            color: #ffffff !important; line-height: 1;
+        .mi-contador-aislado #valor-metros {
+            font-size: 20px !important;
+            font-weight: 300 !important;
+            color: #ffffff !important;
+            line-height: 1 !important;
         }
     </style>
 </head>
-<body style="margin:0; background:transparent !important;">
+<body>
 
-    <div class="meter-wrapper">
-        <div class="titulo">Profundidad</div>
-        <div id="meter">000m</div>
+    <div class="mi-contador-aislado">
+        <div class="titulo-profundidad">Profundidad</div>
+        <div id="valor-metros">000m</div>
     </div>
 
     <script>
+        // Escucha la señal de scroll enviada desde la web principal
         window.addEventListener('message', (event) => {
             if (event.data.type === 'scroll') {
-                // Aquí cambiamos el 500 para que el número llegue hasta 500m máximo
-                const maxDepth = 500; 
+                const maxDepth = 500; // Ajusta este límite según prefieras
                 const depth = Math.floor(event.data.percent * maxDepth);
-                document.getElementById('meter').innerText = depth.toString().padStart(3, '0') + 'm';
+                document.getElementById('valor-metros').innerText = depth.toString().padStart(3, '0') + 'm';
             }
         });
     </script>
 </body>
 </html>
-2. El iframe para Readymag
-Este es el mismo código puente. Al usar pointer-events: none;, garantizamos que no interfiera con los clics ni el diseño de tu web.
-
-HTML
-<iframe id="depthFrame" src="https://agusjuarezaaa.github.io/" style="width:100%; height:100%; border:none; background:transparent; position:fixed; top:0; left:0; pointer-events:none; z-index:999999;" scrolling="no" allowtransparency="true"></iframe>
-
-<script>
-    window.addEventListener('scroll', () => {
-        const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-        const percent = scrollTotal > 0 ? (window.scrollY / scrollTotal) : 0;
-        const frame = document.getElementById('depthFrame');
-        if (frame && frame.contentWindow) {
-            frame.contentWindow.postMessage({type: 'scroll', percent: percent}, '*');
-        }
-    });
-</script>
