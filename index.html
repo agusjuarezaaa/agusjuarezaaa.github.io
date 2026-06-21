@@ -18,7 +18,7 @@
   #scroller {
     position: absolute;
     top: 0; left: 0;
-    width: 100%;
+    width: calc(100% + 20px);
     height: 100%;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -34,19 +34,20 @@
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     pointer-events: none;
     z-index: 2;
   }
 
   .counter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
     user-select: none;
+    transition: top 0.05s linear;
   }
 
   .label {
@@ -82,7 +83,7 @@
 </div>
 
 <div id="ui">
-  <div class="counter">
+  <div class="counter" id="counter">
     <div class="label">Profundidad</div>
     <div class="depth"><span id="num">000</span><span class="unit">m</span></div>
   </div>
@@ -90,6 +91,7 @@
 
 <script>
   const el = document.getElementById('num');
+  const counter = document.getElementById('counter');
   const scroller = document.getElementById('scroller');
   let current = 0, target = 0, rafId = null;
 
@@ -115,8 +117,17 @@
   scroller.addEventListener('scroll', function() {
     var total = scroller.scrollHeight - scroller.clientHeight;
     var pct = total > 0 ? scroller.scrollTop / total : 0;
+
+    // número baja
     setDepth(pct * 1000);
+
+    // contador se mueve hacia abajo: empieza en 10% y llega al 80% del alto
+    var topPct = 10 + (pct * 70);
+    counter.style.top = topPct + '%';
+
   }, { passive: true });
+
+  counter.style.top = '10%';
 </script>
 </body>
 </html>
